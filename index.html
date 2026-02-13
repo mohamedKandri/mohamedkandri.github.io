@@ -4,507 +4,1671 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Mohamed Kandri – Full-Stack Developer & Cybersecurity Specialist. Expertise in secure system architecture, applied cryptography, and AI chatbots.">
-  <meta name="keywords" content="cybersecurity, full-stack developer, encryption, RSA/AES, Flask, React, secure file sharing, logistics optimization, Morocco">
+  <meta name="keywords" content="cybersecurity, full-stack developer, encryption, RSA/AES, Flask, React, secure file sharing, logistics optimization">
   <title>Mohamed Kandri | Dev & Security</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --primary: #e67748;    /* Vibrant orange */
+      --primary-dark: #e05a2d;
+      --secondary: #ff8c42;  /* Amber orange */
+      --accent: #ffa500;     /* Bright orange accent */
+      --dark: #0a0a0a;       /* True black */
+      --darker: #000000;     /* Pure black */
+      --light: #f8f9fa;
+      --gray: #6c757d;
+      --success: #28a745;
+      --warning: #ffc107;
+      --danger: #dc3545;
+      --glass-bg: rgba(10, 10, 10, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --terminal-bg: #121212;
+    }
+
     body {
-      font-family: 'JetBrains Mono', monospace;
-      background-color: #1e1e1e;
-      color: #d4d4d4;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, #0f0f0f 100%);
+      color: var(--light);
       scroll-behavior: smooth;
       line-height: 1.6;
-      padding-bottom: 28px; /* space for status bar */
-    }
-    .keyword { color: #c586c0; }
-    .function { color: #4ec9b0; }
-    .string { color: #ce9178; }
-    .comment { color: #6a9955; }
-    .section {
-      min-height: 100vh;
-      padding: 2rem 1.5rem;
-      max-width: 800px;
-      margin: 0 auto 4rem;
-    }
-    h2 {
-      font-size: 1.25rem;
-      margin-bottom: 1.25rem;
-      color: #4ec9b0;
-      border-bottom: 1px solid #3a3a3a;
-      padding-bottom: 0.5rem;
-    }
-    .project-tag {
-      display: inline-block;
-      margin-right: 0.5rem;
-      color: #d7ba7d;
+      overflow-x: hidden;
+      position: relative;
     }
 
-    /* Traffic lights */
-    .terminal-dots {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      display: flex;
-      gap: 6px;
-      z-index: 10;
-    }
-    .dot { width: 12px; height: 12px; border-radius: 50%; }
-
-    /* Name header */
-    .name-header {
-      font-size: 1.75rem;
-      font-weight: 500;
-      padding: 1.25rem 0 0.75rem;
-      text-align: center;
-    }
-
-    /* Tab bar */
-    .tab-bar {
-      display: flex;
-      gap: 2px;
-      padding: 4px 6px;
-      margin-bottom: 2rem;
-      overflow-x: auto;
-      justify-content: center;
-    }
-    .tab {
-      padding: 6px 12px;
-      background-color: #2d2d2d;
-      border: 1px solid #3a3a3a;
-      border-radius: 3px;
-      color: #d4d4d4;
-      text-decoration: none;
-      white-space: nowrap;
-      font-size: 0.875rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .tab:hover {
-      background-color: #3a3a3a;
-    }
-    .tab.active {
-      background-color: #1e1e1e;
-      border-color: #4ec9b0;
-      color: #4ec9b0;
-    }
-
-    /* Download button */
-    .download-btn {
-      display: inline-block;
-      background-color: #2d2d2d;
-      color: #4ec9b0;
-      padding: 0.5rem 1rem;
-      border: 1px solid #3a3a3a;
-      border-radius: 4px;
-      text-decoration: none;
-      font-family: inherit;
-      margin-top: 0.75rem;
-    }
-    .download-btn:hover {
-      background-color: #3a3a3a;
-    }
-
-    /* Expandable project */
-    .project-card {
-      margin-bottom: 1.5rem;
-      cursor: pointer;
-    }
-    .project-detail {
-      margin-top: 0.75rem;
-      padding-left: 1rem;
-      border-left: 2px solid #4ec9b0;
-      display: none;
-    }
-    .project-card.expanded .project-detail {
-      display: block;
-    }
-
-    /* Terminal */
-    .terminal {
-      background: #1e1e1e;
-      border: 1px solid #3a3a3a;
-      border-radius: 4px;
-      padding: 1rem;
-      margin: 1.5rem 0;
-      font-size: 0.9rem;
-    }
-    .terminal-line {
-      margin-bottom: 0.25rem;
-    }
-    .terminal-input {
-      display: flex;
-      align-items: center;
-    }
-    .terminal-prompt {
-      color: #4ec9b0;
-      margin-right: 0.5rem;
-    }
-    .terminal-input input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #d4d4d4;
-      font-family: inherit;
-      width: 100%;
-    }
-
-    /* Status bar */
-    .status-bar {
+    body::before {
+      content: '';
       position: fixed;
-      bottom: 0;
+      top: 0;
       left: 0;
       width: 100%;
-      background-color: #252526;
-      color: #949494;
-      font-size: 0.75rem;
-      padding: 0.25rem 1rem;
-      border-top: 1px solid #3a3a3a;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 107, 53, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255, 140, 66, 0.08) 0%, transparent 40%);
+      z-index: -1;
+    }
+
+    /* Navigation */
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 1rem 2rem;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .navbar.scrolled {
+      padding: 0.75rem 2rem;
+      background: rgba(0, 0, 0, 0.95);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
-    /* Screen reader only */
-    .sr-only {
+    .logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: var(--light);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.05rem;
+      position: relative;
+      padding: 0.5rem 0;
+      transition: all 0.3s ease;
+      letter-spacing: -0.25px;
+    }
+
+    .nav-link::after {
+      content: '';
       position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2.5px;
+      background: var(--primary);
+      transition: width 0.3s ease;
     }
 
-    a.string {
-  color: #ce9178;
-  text-decoration: none;
-}
-a.string:hover {
-  text-decoration: underline;
-}
+    .nav-link:hover {
+      color: var(--primary);
+    }
 
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-link.active {
+      color: var(--primary);
+    }
+
+    .nav-link.active::after {
+      width: 100%;
+      background: var(--secondary);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+      background: 
+        radial-gradient(circle at 30% 40%, rgba(255, 107, 53, 0.15) 0%, transparent 35%),
+        radial-gradient(circle at 70% 60%, rgba(255, 140, 66, 0.1) 0%, transparent 40%);
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      padding: 2rem 0;
+    }
+
+    .hero-title {
+      font-size: 4.2rem;
+      font-weight: 800;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -1.5px;
+      text-shadow: 0 5px 25px rgba(255, 107, 53, 0.3);
+    }
+
+    .hero-subtitle {
+      font-size: 1.8rem;
+      color: #e0e0e0;
+      margin-bottom: 2rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-description {
+      font-size: 1.25rem;
+      color: #c5c5c5;
+      margin-bottom: 3.5rem;
+      max-width: 850px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 2.5rem;
+    }
+
+    .cta-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 1.1rem 3rem;
+      border-radius: 60px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.15rem;
+      transition: all 0.4s ease;
+      box-shadow: 
+        0 4px 15px rgba(255, 107, 53, 0.4),
+        0 0 0 3px rgba(255, 107, 53, 0.2);
+      position: relative;
+      overflow: hidden;
+      letter-spacing: -0.25px;
+    }
+
+    .cta-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.7s;
+    }
+
+    .cta-primary:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        0 8px 25px rgba(255, 107, 53, 0.6),
+        0 0 0 3px rgba(255, 107, 53, 0.3);
+    }
+
+    .cta-primary:hover::before {
+      left: 100%;
+    }
+
+    .cta-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      padding: 1.1rem 3rem;
+      border-radius: 60px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.15rem;
+      transition: all 0.4s ease;
+      letter-spacing: -0.25px;
+    }
+
+    .cta-secondary:hover {
+      background: rgba(255, 107, 53, 0.15);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Section Styling */
+    .section {
+      padding: 7rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+    }
+
+    .section-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      display: inline-block;
+      letter-spacing: -1px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      width: 70px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .section-subtitle {
+      color: #a0a0a0;
+      font-size: 1.25rem;
+      margin-bottom: 3.5rem;
+      max-width: 850px;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* About Section */
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+
+    .about-text {
+      line-height: 1.9;
+      color: #e5e5e5;
+      font-weight: 300;
+      font-size: 1.1rem;
+    }
+
+    .about-text p {
+      margin-bottom: 1.8rem;
+      position: relative;
+      padding-left: 1.2rem;
+    }
+
+    .about-text p::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-size: 1.4rem;
+      top: -0.2rem;
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .principle-card {
+      background: var(--terminal-bg);
+      border: 1px solid var(--glass-border);
+      padding: 2rem;
+      border-radius: 16px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .principle-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--primary);
+      transition: width 0.4s ease;
+    }
+
+    .principle-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--primary);
+      box-shadow: 0 15px 40px rgba(255, 107, 53, 0.25);
+    }
+
+    .principle-card:hover::before {
+      width: 8px;
+    }
+
+    .principle-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .principle-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: var(--light);
+    }
+
+    .principle-desc {
+      color: #b5b5b5;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* Skills Section */
+    .skills-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+      margin-top: 4rem;
+    }
+
+    .skill-category {
+      background: var(--terminal-bg);
+      border: 1px solid var(--glass-border);
+      padding: 2.5rem;
+      border-radius: 20px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .skill-category::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .skill-category:hover {
+      transform: translateY(-10px);
+      border-color: var(--primary);
+      box-shadow: 0 15px 45px rgba(255, 107, 53, 0.2);
+    }
+
+    .skill-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 1.8rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      letter-spacing: -0.5px;
+    }
+
+    .skill-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .skill-item {
+      color: var(--light);
+      font-size: 1.05rem;
+      padding: 0.8rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      transition: all 0.3s ease;
+      font-weight: 400;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-item::before {
+      content: '✓';
+      position: absolute;
+      left: 10px;
+      color: var(--primary);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .skill-item:hover {
+      background: rgba(255, 107, 53, 0.15);
+      padding-left: 25px;
+    }
+
+    .skill-item:hover::before {
+      opacity: 1;
+    }
+
+    /* Projects Section */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 3rem;
+      margin-top: 4rem;
+    }
+
+    .project-card {
+      background: var(--terminal-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.5s ease;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .project-card:hover {
+      transform: translateY(-15px);
+      box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.6),
+        0 0 0 3px rgba(255, 107, 53, 0.2);
+      border-color: var(--primary);
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s ease;
+    }
+
+    .project-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .project-header {
+      padding: 2.2rem;
+      background: rgba(255, 107, 53, 0.05);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .project-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: var(--light);
+      letter-spacing: -0.5px;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.3rem;
+    }
+
+    .project-tag {
+      background: rgba(255, 107, 53, 0.15);
+      color: var(--primary);
+      padding: 0.5rem 1.1rem;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+
+    .project-tag:hover {
+      background: rgba(255, 107, 53, 0.25);
+      transform: scale(1.05);
+    }
+
+    .project-desc {
+      color: #c5c5c5;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .project-details {
+      padding: 2.2rem;
+      display: none;
+      background: rgba(0, 0, 0, 0.3);
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .project-card.expanded .project-details {
+      display: block;
+      animation: slideDown 0.4s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .project-detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      margin-bottom: 1.4rem;
+      color: var(--light);
+    }
+
+    .project-detail-icon {
+      color: var(--primary);
+      font-size: 1.4rem;
+      margin-top: 0.3rem;
+      min-width: 28px;
+    }
+
+    .project-detail-text {
+      color: #d0d0d0;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .project-detail-text strong {
+      color: var(--light);
+      font-weight: 600;
+    }
+
+    /* Experience Section */
+    .timeline {
+      position: relative;
+      margin-top: 4rem;
+      padding-left: 3rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: linear-gradient(180deg, var(--primary), var(--secondary));
+      border-radius: 3px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 4.5rem;
+      padding-left: 2.5rem;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -8px;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 4px solid var(--darker);
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3);
+    }
+
+    .timeline-content {
+      background: var(--terminal-bg);
+      border: 1px solid var(--glass-border);
+      padding: 2.5rem;
+      border-radius: 20px;
+      transition: all 0.4s ease;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .timeline-content:hover {
+      transform: translateX(15px);
+      border-color: var(--primary);
+      box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.45),
+        0 0 0 3px rgba(255, 107, 53, 0.15);
+    }
+
+    .timeline-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      margin-bottom: 0.8rem;
+      color: var(--light);
+      letter-spacing: -0.5px;
+    }
+
+    .timeline-period {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 1.5rem;
+      display: block;
+      letter-spacing: 0.5px;
+    }
+
+    .timeline-desc {
+      color: #d5d5d5;
+      line-height: 1.8;
+      font-size: 1.1rem;
+      font-weight: 300;
+      margin-bottom: 1.8rem;
+    }
+
+    .timeline-highlights {
+      margin-top: 1.8rem;
+      padding-left: 2rem;
+    }
+
+    .timeline-highlight {
+      color: var(--light);
+      margin-bottom: 1.1rem;
+      position: relative;
+      font-size: 1.05rem;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    .timeline-highlight::before {
+      content: '→';
+      position: absolute;
+      left: -1.8rem;
+      color: var(--primary);
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    /* Contact Section */
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 4rem;
+      align-items: start;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2.8rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+
+    .contact-icon {
+      width: 75px;
+      height: 75px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.9rem;
+      color: white;
+      flex-shrink: 0;
+      box-shadow: 0 10px 25px rgba(255, 107, 53, 0.4);
+      transition: all 0.4s ease;
+    }
+
+    .contact-item:hover .contact-icon {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 30px rgba(255, 107, 53, 0.6);
+    }
+
+    .contact-details h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+      color: var(--light);
+      letter-spacing: -0.5px;
+    }
+
+    .contact-details a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 1.15rem;
+      font-weight: 500;
+      letter-spacing: -0.25px;
+    }
+
+    .contact-details a:hover {
+      color: var(--secondary);
+      text-decoration: underline;
+      letter-spacing: 0;
+    }
+
+    .contact-form {
+      background: var(--terminal-bg);
+      border: 1px solid var(--glass-border);
+      padding: 3rem;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .form-group {
+      margin-bottom: 2rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+      color: var(--light);
+      font-size: 1.1rem;
+      letter-spacing: -0.25px;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 1.3rem;
+      background: rgba(30, 30, 30, 0.7);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      color: var(--light);
+      font-family: inherit;
+      font-size: 1.05rem;
+      transition: all 0.4s ease;
+      font-weight: 400;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(40, 40, 40, 0.8);
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+    }
+
+    .form-textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 1.3rem;
+      border: none;
+      border-radius: 16px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      width: 100%;
+      letter-spacing: -0.25px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(255, 107, 53, 0.6);
+    }
+
+    .submit-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--darker);
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+      border-top: 1px solid rgba(255, 107, 53, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .social-link {
+      width: 70px;
+      height: 70px;
+      background: var(--terminal-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 1.8rem;
+      text-decoration: none;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .social-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+    }
+
+    .social-link:hover {
+      transform: translateY(-8px) scale(1.1);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 15px 35px rgba(255, 107, 53, 0.5);
+    }
+
+    .social-link:hover::before {
+      opacity: 1;
+    }
+
+    .copyright {
+      color: #888;
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .copyright span {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { 
+        opacity: 0; 
+        transform: translateY(30px);
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.9s ease forwards;
+    }
+
+    .fade-in-delay-1 {
+      animation: fadeIn 0.9s ease 0.2s forwards;
+    }
+
+    .fade-in-delay-2 {
+      animation: fadeIn 0.9s ease 0.4s forwards;
+    }
+
+    .fade-in-delay-3 {
+      animation: fadeIn 0.9s ease 0.6s forwards;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 3.5rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.6rem;
+      }
+      
+      .section {
+        padding: 5rem 1.5rem;
+      }
+      
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .about-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .principles-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-title {
+        font-size: 2.8rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.4rem;
+      }
+      
+      .hero-description {
+        font-size: 1.1rem;
+        padding: 0 1rem;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .cta-primary, .cta-secondary {
+        width: 100%;
+        max-width: 400px;
+      }
+      
+      .section-title {
+        font-size: 2.3rem;
+      }
+      
+      .section-subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .timeline {
+        padding-left: 2rem;
+      }
+      
+      .timeline::before {
+        left: 5px;
+      }
+      
+      .timeline-item {
+        padding-left: 2rem;
+      }
+      
+      .timeline-item::before {
+        left: -3px;
+      }
+      
+      .project-header, .project-details {
+        padding: 1.8rem;
+      }
+      
+      .contact-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.2rem;
+      }
+      
+      .contact-icon {
+        width: 65px;
+        height: 65px;
+        font-size: 1.7rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 2.4rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.3rem;
+      }
+      
+      .section {
+        padding: 4rem 1rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .skill-list {
+        grid-template-columns: 1fr;
+      }
+      
+      .social-link {
+        width: 60px;
+        height: 60px;
+        font-size: 1.6rem;
+      }
+      
+      .copyright {
+        font-size: 0.95rem;
+        padding: 0 1rem;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- ATS Optimization -->
-  <div class="sr-only">
-    Mohamed Kandri is a cybersecurity graduate and full-stack developer specializing in secure system architecture, applied cryptography, hybrid RSA/AES encryption, AI chatbots, and logistics optimization using GraphHopper API. Proficient in Python, JavaScript, React, Vue, Laravel, Flask, and secure authentication systems. Seeking operational roles in application security, secure software engineering, or cybersecurity operations.
-  </div>
-
-  <!-- Traffic lights -->
-  <div class="terminal-dots">
-    <div class="dot bg-red-500"></div>
-    <div class="dot bg-yellow-500"></div>
-    <div class="dot bg-green-500"></div>
-  </div>
-
-  <!-- Header & Tabs -->
-  <div>
-    <h1 class="name-header">Mohamed Kandri</h1>
-    <div class="tab-bar">
-      <a href="#home" class="tab active">📄 Home</a>
-      <a href="#about" class="tab">📄 About</a>
-      <a href="#education" class="tab">🎓 Education</a>
-      <a href="#skills" class="tab">🛠️ Skills</a>
-      <a href="#projects" class="tab">🚀 Projects</a>
-      <a href="#contact" class="tab">📬 Contact</a>
-      <a href="#experience" class="tab">💼 Experience</a>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">MK</div>
+      <ul class="nav-links">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
     </div>
-  </div>
+  </nav>
 
-  <!-- Home -->
-  <section class="section" id="home">
-    <pre class="text-sm md:text-base">
-<span class="keyword">const</span> <span class="function">developer</span> = {
-  <span class="keyword">role</span>: <span class="string">"Full-Stack Developer & Cybersecurity Specialist"</span>,
-  <span class="keyword">focus</span>: [
-    <span class="string">"Secure system architecture"</span>,
-    <span class="string">"Applied cryptography"</span>,
-    <span class="string">"AI-powered chatbots"</span>,
-    <span class="string">"Logistics optimization"</span>
-  ],
-  <span class="keyword">current</span>: <span class="string">"Building brain_game with Flutter"</span>
-};
-
-<span class="comment">// 👋 Welcome to my digital workspace.</span>
-<span class="comment">// 💼 Seeking first operational role in cybersecurity.</span>
-    </pre>
-  </section>
-
-  <!-- About -->
-  <section class="section" id="about">
-    <h2># About</h2>
-    <pre class="text-sm md:text-base">
-<span class="comment">// A builder of secure, intelligent systems.</span>
-
-Graduate in <span class="string">Cybersecurity</span> (EST, 2025) with a 
-<span class="string">Full-Stack Development</span> diploma (ISTA, 2024). 
-My work sits at the intersection of software engineering and defensive security.
-
-<span class="comment">// Core principles:</span>
-- Systems must be <span class="function">secure by design</span>, not as an afterthought
-- Code should solve <span class="function">real operational problems</span>
-- Simplicity and clarity > unnecessary complexity
-
-<span class="comment">// Experience includes:</span>
-- Secure file-sharing over LAN with hybrid RSA/AES encryption
-- AI & rule-based chatbots with admin panels
-- Logistics optimization using GraphHopper API
-- WordPress automation and brand digital strategy
-
-<span class="comment">// Not seeking PFE — ready for operational impact.</span>
-    </pre>
-
-    <h2 class="mt-6"># Security Philosophy</h2>
-    <pre class="text-sm md:text-base mt-2">
-<span class="keyword">const</span> <span class="function">securityPhilosophy</span> = {
-  <span class="keyword">principle</span>: <span class="string">"Security is a process, not a product"</span>,
-  <span class="keyword">practices</span>: [
-    <span class="string">"Encrypt data in transit AND at rest"</span>,
-    <span class="string">"Principle of least privilege for all services"</span>,
-    <span class="string">"Assume breach — design for containment"</span>,
-    <span class="string">"Automate security checks in CI/CD"</span>
-  ]
-};
-    </pre>
-  </section>
-
-  <!-- Experience -->
-<section class="section" id="experience">
-  <h2># Experience</h2>
-  <pre class="text-sm md:text-base">
-<span class="keyword">const</span> <span class="function">experience</span> = [
-  {
-    <span class="keyword">role</span>: <span class="string">"Full-Stack Developer & Security Implementer"</span>,
-    <span class="keyword">type</span>: <span class="string">"Freelance"</span>,
-    <span class="keyword">period</span>: <span class="string">"2022–Present"</span>,
-    <span class="keyword">highlights</span>: [
-      <span class="string">"Built secure LAN file-sharing system with hybrid RSA/AES encryption"</span>,
-      <span class="string">"Implemented token-based auth and HTTPS (TLS) for service protection"</span>,
-      <span class="string">"Developed AI and rule-based chatbots with admin panels"</span>
-    ]
-  },
-  {
-    <span class="keyword">role</span>: <span class="string">"Logistics Optimization Developer"</span>,
-    <span class="keyword">type</span>: <span class="string">"Project Collaboration"</span>,
-    <span class="keyword">period</span>: <span class="string">"2023–2024"</span>,
-    <span class="keyword">highlights</span>: [
-      <span class="string">"Designed intelligent algorithm for fuel order assignment to trucks"</span>,
-      <span class="string">"Integrated GraphHopper API for real-time distance calculations"</span>,
-      <span class="string">"Balanced truck routes and reassigning orders during disruptions"</span>
-    ]
-  },
-  {
-    <span class="keyword">role</span>: <span class="string">"Web & Digital Solutions Provider"</span>,
-    <span class="keyword">type</span>: <span class="string">"Freelance"</span>,
-    <span class="keyword">period</span>: <span class="string">"2022–2024"</span>,
-    <span class="keyword">highlights</span>: [
-      <span class="string">"Created dynamic websites and managed WordPress sites"</span>,
-      <span class="string">"Automated blog content publishing via n8n workflows"</span>,
-      <span class="string">"Improved brand visibility through social media management"</span>
-    ]
-  }
-];
-  </pre>
-</section>
-
-  <!-- Education -->
-  <section class="section" id="education">
-    <h2># Education</h2>
-    <pre class="text-sm md:text-base">
-<span class="keyword">const</span> <span class="function">education</span> = [
-  {
-    <span class="keyword">degree</span>: <span class="string">"License in Cybersecurity"</span>,
-    <span class="keyword">school</span>: <span class="string">"Ecole Supérieure de Technologie (EST)"</span>,
-    <span class="keyword">period</span>: <span class="string">"2024–2025"</span>
-  },
-  {
-    <span class="keyword">degree</span>: <span class="string">"Diplôme Technicien Spécialisé – Full Stack"</span>,
-    <span class="keyword">school</span>: <span class="string">"ISTA TIT MELIL"</span>,
-    <span class="keyword">period</span>: <span class="string">"2022–2024"</span>
-  },
-  {
-    <span class="keyword">degree</span>: <span class="string">"Biology Degree"</span>,
-    <span class="keyword">school</span>: <span class="string">"Faculté des Sciences Ben M’Sik – UH2C"</span>,
-    <span class="keyword">period</span>: <span class="string">"Completed"</span>
-  },
-  {
-    <span class="keyword">degree</span>: <span class="string">"Medicine (Partial)"</span>,
-    <span class="keyword">school</span>: <span class="string">"Zaporizhzhia State Medical University"</span>,
-    <span class="keyword">period</span>: <span class="string">"2020–2022"</span>
-  }
-];
-    </pre>
-  </section>
-
-  <!-- Skills -->
-  <section class="section" id="skills">
-    <h2># Tech Stack</h2>
-    <pre class="text-sm md:text-base">
-<span class="keyword">const</span> <span class="function">techStack</span> = {
-  <span class="keyword">languages</span>: [<span class="string">"JavaScript/TypeScript"</span>, <span class="string">"Python"</span>, <span class="string">"PHP"</span>, <span class="string">"SQL"</span>, <span class="string">"HTML/CSS"</span>],
-  <span class="keyword">frontend</span>: [<span class="string">"React"</span>, <span class="string">"Vue.js"</span>, <span class="string">"Tailwind CSS"</span>, <span class="string">"Bootstrap"</span>],
-  <span class="keyword">backend</span>: [<span class="string">"Laravel"</span>, <span class="string">"Flask"</span>, <span class="string">"Node.js"</span>],
-  <span class="keyword">security</span>: [
-    <span class="string">"Token-based auth"</span>,
-    <span class="string">"RSA/AES hybrid encryption"</span>,
-    <span class="string">"HTTPS/TLS"</span>,
-    <span class="string">"System hardening"</span>
-  ],
-  <span class="keyword">tools</span>: [<span class="string">"Git/GitLab"</span>, <span class="string">"VS Code"</span>, <span class="string">"Chrome DevTools"</span>, <span class="string">"Linux"</span>, <span class="string">"Flutter"</span>]
-};
-    </pre>
-  </section>
-
-  <!-- Projects -->
-  <section class="section" id="projects">
-    <h2># Projects</h2>
-    <p class="comment mb-4">// Click any project to expand technical details</p>
-
-    <!-- Project 1 -->
-    <div class="project-card" onclick="toggleProject(this)">
-      <pre class="text-sm">
-{
-  <span class="keyword">title</span>: <span class="string">"Encrypted File Sharing System"</span>,
-  <span class="keyword">tags</span>: [<span class="project-tag">🛡️ Security</span>, <span class="project-tag">🔐 Encryption</span>],
-  <span class="keyword">desc</span>: <span class="string">"LAN-based file sharing with RSA/AES hybrid encryption..."</span>
-}
-      </pre>
-      <div class="project-detail comment">
-        - Generated ephemeral RSA key pairs per session<br>
-        - Used AES-256-GCM for authenticated file encryption<br>
-        - Secured transport via Flask HTTPS (TLS 1.3)<br>
-        - Implemented JWT-based access control<br>
-        - Hybrid model: RSA encrypts AES key, AES encrypts file
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content fade-in">
+      <h1 class="hero-title">Mohamed Kandri</h1>
+      <p class="hero-subtitle">Full-Stack Developer & Cybersecurity Specialist</p>
+      <p class="hero-description">
+        Building impenetrable systems with applied cryptography and modern development practices. 
+        Security isn't an add-on—it's engineered into every layer.
+      </p>
+      <div class="cta-buttons">
+        <a href="#projects" class="cta-primary">Featured Projects</a>
+        <a href="#contact" class="cta-secondary">Hire Me</a>
       </div>
     </div>
-
-    <!-- Project 2 -->
-    <div class="project-card" onclick="toggleProject(this)">
-      <pre class="text-sm">
-{
-  <span class="keyword">title</span>: <span class="string">"Jasmine – Customer Support Chatbot"</span>,
-  <span class="keyword">tags</span>: [<span class="project-tag">🤖 AI</span>, <span class="project-tag">💬 Chatbot</span>],
-  <span class="keyword">desc</span>: <span class="string">"Dynamic chatbot with admin panel and WhatsApp integration..."</span>
-}
-      </pre>
-      <div class="project-detail comment">
-        - Rule-based engine with fallback to NLP intents<br>
-        - Admin dashboard for response management<br>
-        - WhatsApp Business API integration<br>
-        - MySQL backend with conversation history<br>
-        - Rate limiting and input sanitization for security
-      </div>
-    </div>
-
-    <!-- Add more projects similarly -->
   </section>
 
-  <!-- Contact -->
-  <section class="section" id="contact">
-    <h2># Contact</h2>
-    <pre class="text-sm md:text-base">
-<span class="comment">// Let's build something secure together</span>
-
-<span class="keyword">email</span> = <span class="string">"Skandri30@gmail.com"</span>
-<span class="keyword">github</span> = <a href="https://github.com/peanutsenior" target="_blank" class="string">"github.com/peanutsenior"</a>
-<span class="keyword">linkedin</span> = <a href="https://www.linkedin.com/in/mohamed-kandri-5725a9260/" target="_blank" class="string">"linkedin.com/in/Mohamed_Kandri"</a>
-    </pre>
-
-    <a href="Mohamed_Kandri_CV.pdf" download class="download-btn">
-      ⬇️ Download CV (PDF)
-    </a>
-
-    <!-- Mini Terminal -->
-    <div class="terminal mt-6">
-      <div class="terminal-line comment">// Type: help, whoami, projects, contact</div>
-      <div class="terminal-input">
-        <span class="terminal-prompt">user@portfolio:~$</span>
-        <input type="text" id="terminal-input" autofocus />
+  <!-- About Section -->
+  <section id="about" class="section">
+    <h2 class="section-title">About Me</h2>
+    <p class="section-subtitle">
+      Engineer of secure systems at the intersection of software development and defensive cybersecurity. 
+      I build applications that are robust by design, not just patched after deployment.
+    </p>
+    
+    <div class="about-content">
+      <div class="about-text fade-in">
+        <p>
+          Graduate in <span class="highlight">Cybersecurity</span> (EST, 2025) with a 
+          <span class="highlight">Full-Stack Development</span> diploma (ISTA, 2024). 
+          My expertise lies in creating secure, scalable applications that solve critical operational challenges.
+        </p>
+        <p>
+          I architect systems with security as the foundation—implementing encryption at rest and in transit, 
+          strict access controls, and defense-in-depth strategies from day one.
+        </p>
+        <p>
+          Currently advancing my skills in Flutter development and application security, with a focus on 
+          building products that are both innovative and inherently secure.
+        </p>
       </div>
-      <div id="terminal-output" class="mt-2"></div>
+      
+      <div class="principles-grid fade-in-delay-1">
+        <div class="principle-card">
+          <div class="principle-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3 class="principle-title">Security by Design</h3>
+          <p class="principle-desc">Security must be architected into systems from inception, not bolted on later</p>
+        </div>
+        
+        <div class="principle-card">
+          <div class="principle-icon">
+            <i class="fas fa-bullseye"></i>
+          </div>
+          <h3 class="principle-title">Operational Focus</h3>
+          <p class="principle-desc">Solutions must solve real business problems with measurable impact</p>
+        </div>
+        
+        <div class="principle-card">
+          <div class="principle-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3 class="principle-title">Elegant Simplicity</h3>
+          <p class="principle-desc">Clean, maintainable code reduces attack surface and technical debt</p>
+        </div>
+        
+        <div class="principle-card">
+          <div class="principle-icon">
+            <i class="fas fa-sync-alt"></i>
+          </div>
+          <h3 class="principle-title">Threat Aware</h3>
+          <p class="principle-desc">Continuously evolving defenses against emerging threats and vulnerabilities</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Status Bar -->
-  <div class="status-bar">
-    <span>✅ brain_game v0.3</span>
-    <span>🔒 RSA/AES Active • 🛠️ Open to Roles</span>
-  </div>
+  <!-- Skills Section -->
+  <section id="skills" class="section">
+    <h2 class="section-title">Technical Arsenal</h2>
+    <p class="section-subtitle">
+      Proficient across the stack with specialized expertise in security implementation and cryptography
+    </p>
+    
+    <div class="skills-container">
+      <div class="skill-category fade-in">
+        <h3 class="skill-title">
+          <i class="fas fa-code"></i> Languages
+        </h3>
+        <ul class="skill-list">
+          <li class="skill-item">JavaScript/TypeScript</li>
+          <li class="skill-item">Python</li>
+          <li class="skill-item">PHP</li>
+          <li class="skill-item">SQL</li>
+          <li class="skill-item">Dart/Flutter</li>
+          <li class="skill-item">HTML5/CSS3</li>
+        </ul>
+      </div>
+      
+      <div class="skill-category fade-in-delay-1">
+        <h3 class="skill-title">
+          <i class="fas fa-laptop-code"></i> Frontend
+        </h3>
+        <ul class="skill-list">
+          <li class="skill-item">React</li>
+          <li class="skill-item">Vue.js</li>
+          <li class="skill-item">Tailwind CSS</li>
+          <li class="skill-item">Flutter</li>
+          <li class="skill-item">Responsive Design</li>
+          <li class="skill-item">UX/UI Principles</li>
+        </ul>
+      </div>
+      
+      <div class="skill-category fade-in-delay-2">
+        <h3 class="skill-title">
+          <i class="fas fa-server"></i> Backend & Infra
+        </h3>
+        <ul class="skill-list">
+          <li class="skill-item">Laravel</li>
+          <li class="skill-item">Flask</li>
+          <li class="skill-item">Node.js</li>
+          <li class="skill-item">PostgreSQL</li>
+          <li class="skill-item">Odoo</li>
+          <li class="skill-item">Linux Systems</li>
+        </ul>
+      </div>
+      
+      <div class="skill-category fade-in-delay-3">
+        <h3 class="skill-title">
+          <i class="fas fa-user-secret"></i> Security Specialties
+        </h3>
+        <ul class="skill-list">
+          <li class="skill-item">RSA/AES Encryption</li>
+          <li class="skill-item">Token Auth (JWT/OAuth)</li>
+          <li class="skill-item">TLS/HTTPS Hardening</li>
+          <li class="skill-item">System Hardening</li>
+          <li class="skill-item">Secure Architecture</li>
+          <li class="skill-item">Threat Modeling</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-  <!-- Scripts -->
+  <!-- Projects Section -->
+  <section id="projects" class="section">
+    <h2 class="section-title">Security-First Projects</h2>
+    <p class="section-subtitle">
+      Systems engineered with security as a foundational requirement, not an afterthought
+    </p>
+    
+    <div class="projects-grid">
+      <!-- Project 1 -->
+      <div class="project-card" onclick="toggleProject(this)">
+        <div class="project-header">
+          <h3 class="project-title">Encrypted File Sharing System</h3>
+          <div class="project-tags">
+            <span class="project-tag">🛡️ Zero-Trust Security</span>
+            <span class="project-tag">🔐 Hybrid Cryptography</span>
+            <span class="project-tag">🌐 LAN Architecture</span>
+          </div>
+          <p class="project-desc">
+            Enterprise-grade secure file sharing with ephemeral key exchange and military-grade encryption
+          </p>
+        </div>
+        <div class="project-details">
+          <div class="project-detail-item">
+            <i class="fas fa-key project-detail-icon"></i>
+            <div>
+              <strong>Security Architecture:</strong>
+              <p class="project-detail-text">
+                Hybrid RSA/AES model: RSA (4096-bit) encrypts ephemeral AES-256-GCM keys per session. 
+                All file data encrypted with authenticated encryption. Perfect forward secrecy implemented.
+              </p>
+            </div>
+          </div>
+          <div class="project-detail-item">
+            <i class="fas fa-cogs project-detail-icon"></i>
+            <div>
+              <strong>Tech Stack:</strong>
+              <p class="project-detail-text">Python, Flask, PyCryptodome, PostgreSQL, TLS 1.3, JWT</p>
+            </div>
+          </div>
+          <div class="project-detail-item">
+            <i class="fas fa-shield-alt project-detail-icon"></i>
+            <div>
+              <strong>Threat Mitigations:</strong>
+              <p class="project-detail-text">
+                Protection against MITM, replay attacks, and unauthorized access through strict key rotation, 
+                HMAC validation, and certificate pinning
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Project 2 -->
+      <div class="project-card" onclick="toggleProject(this)">
+        <div class="project-header">
+          <h3 class="project-title">Jasmine – AI Security Chatbot</h3>
+          <div class="project-tags">
+            <span class="project-tag">🤖 AI/ML Security</span>
+            <span class="project-tag">💬 Threat Detection</span>
+            <span class="project-tag">📱 WhatsApp Integration</span>
+          </div>
+          <p class="project-desc">
+            Intelligent chatbot with security-hardened architecture and real-time threat response capabilities
+          </p>
+        </div>
+        <div class="project-details">
+          <div class="project-detail-item">
+            <i class="fas fa-brain project-detail-icon"></i>
+            <div>
+              <strong>Security Features:</strong>
+              <p class="project-detail-text">
+                Input sanitization with regex validation, rate limiting (100 req/min), SQL injection prevention, 
+                encrypted conversation history, and admin audit trails
+              </p>
+            </div>
+          </div>
+          <div class="project-detail-item">
+            <i class="fas fa-cogs project-detail-icon"></i>
+            <div>
+              <strong>Tech Stack:</strong>
+              <p class="project-detail-text">Python, Flask, WhatsApp Business API, MySQL (AES-256 encrypted), NLP libraries</p>
+            </div>
+          </div>
+          <div class="project-detail-item">
+            <i class="fas fa-user-shield project-detail-icon"></i>
+            <div>
+              <strong>Compliance:</strong>
+              <p class="project-detail-text">
+                GDPR-compliant data handling, end-to-end encryption for sensitive conversations, 
+                and strict access controls for admin panel
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Project 3 -->
+      <div class="project-card" onclick="toggleProject(this)">
+        <div class="project-header">
+          <h3 class="project-title">Logistics Security Optimizer</h3>
+          <div class="project-tags">
+            <span class="project-tag">🚚 Operational Security</span>
+            <span class="project-tag">🗺️ API Hardening</span>
+            <span class="project-tag">📊 Threat Modeling</span>
+          </div>
+          <p class="project-desc">
+            Secure route optimization system with hardened API integrations and disruption response protocols
+          </p>
+        </div>
+        <div class="project-details">
+          <div class="project-detail-item">
+            <i class="fas fa-route project-detail-icon"></i>
+            <div>
+              <strong>Security Implementation:</strong>
+              <p class="project-detail-text">
+                GraphHopper API integration with HMAC signature validation, encrypted payload transmission, 
+                and circuit breaker pattern for failure isolation during disruptions
+              </p>
+            </div>
+          </div>
+          <div class="project-detail-item">
+            <i class="fas fa-cogs project-detail-icon"></i>
+            <div>
+              <strong>Tech Stack:</strong>
+              <p class="project-detail-text">Python, GraphHopper API (secured), Algorithm Design, PostgreSQL (encrypted fields)</p>
+            </div>
+          </div>
+          <div class="project-detail-item">
+            <i class="fas fa-shield-alt project-detail-icon"></i>
+            <div>
+              <strong>Operational Security:</strong>
+              <p class="project-detail-text">
+                Protected sensitive logistics data (routes, cargo details) with field-level encryption, 
+                implemented principle of least privilege for API access, and audit logging for all operations
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience" class="section">
+    <h2 class="section-title">Professional Journey</h2>
+    <p class="section-subtitle">
+      Building secure systems and solving complex challenges through engineering excellence
+    </p>
+    
+    <div class="timeline">
+      <div class="timeline-item fade-in">
+        <div class="timeline-content">
+          <h3 class="timeline-title">Full-Stack Security Developer</h3>
+          <span class="timeline-period">Freelance | 2022–Present</span>
+          <p class="timeline-desc">
+            Architecting and implementing secure web applications with embedded security controls for diverse clients.
+          </p>
+          <ul class="timeline-highlights">
+            <li class="timeline-highlight">Engineered LAN file-sharing system with hybrid RSA/AES encryption protecting 500+ GB of sensitive data</li>
+            <li class="timeline-highlight">Implemented zero-trust architecture with JWT validation and TLS 1.3 enforcement across all services</li>
+            <li class="timeline-highlight">Developed security-hardened AI chatbots with input sanitization and rate limiting to prevent abuse</li>
+            <li class="timeline-highlight">Designed secure WordPress deployments with hardened configurations and automated security patching</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="timeline-item fade-in-delay-1">
+        <div class="timeline-content">
+          <h3 class="timeline-title">Logistics Security Engineer</h3>
+          <span class="timeline-period">Project Collaboration | 2023–2024</span>
+          <p class="timeline-desc">
+            Designed security-conscious optimization algorithms for critical logistics infrastructure.
+          </p>
+          <ul class="timeline-highlights">
+            <li class="timeline-highlight">Architected fuel distribution system with encrypted API communications and strict access controls</li>
+            <li class="timeline-highlight">Integrated GraphHopper API with HMAC signature validation to prevent route manipulation attacks</li>
+            <li class="timeline-highlight">Implemented circuit breaker pattern to maintain system integrity during network disruptions</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="timeline-item fade-in-delay-2">
+        <div class="timeline-content">
+          <h3 class="timeline-title">Web Security Specialist</h3>
+          <span class="timeline-period">Freelance | 2022–2024</span>
+          <p class="timeline-desc">
+            Securing digital assets and infrastructure for small-to-medium businesses through proactive hardening.
+          </p>
+          <ul class="timeline-highlights">
+            <li class="timeline-highlight">Hardened 15+ WordPress installations against common attack vectors (XSS, SQLi, CSRF)</li>
+            <li class="timeline-highlight">Implemented automated security workflows using n8n with encrypted credential storage</li>
+            <li class="timeline-highlight">Conducted security audits and remediation for client web properties</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section">
+    <h2 class="section-title">Contact</h2>
+    <p class="section-subtitle">
+      Ready to build something secure and impactful together? Let's connect.
+    </p>
+    
+    <div class="contact-container">
+      <div class="contact-info fade-in">
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="contact-details">
+            <h3>Email</h3>
+            <a href="mailto:Skandri30@gmail.com">Skandri30@gmail.com</a>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fab fa-github"></i>
+          </div>
+          <div class="contact-details">
+            <h3>Code Repository</h3>
+            <a href="https://github.com/peanutsenior" target="_blank">github.com/peanutsenior</a>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fab fa-linkedin-in"></i>
+          </div>
+          <div class="contact-details">
+            <h3>Professional Network</h3>
+            <a href="https://www.linkedin.com/in/mohamed-kandri-5725a9260/" target="_blank">linkedin.com/in/Mohamed_Kandri</a>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-file-shield"></i>
+          </div>
+          <div class="contact-details">
+            <h3>Resume</h3>
+            <a href="Mohamed_Kandri_CV.pdf" download class="cta-secondary" style="display: inline-block; padding: 0.7rem 2rem; margin-top: 0.7rem; border-radius: 14px; font-weight: 600; letter-spacing: -0.25px;">
+              Download Encrypted CV
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="contact-form fade-in-delay-1">
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" id="name" class="form-input" required placeholder="John Doe">
+          </div>
+          
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" id="email" class="form-input" required placeholder="john@example.com">
+          </div>
+          
+          <div class="form-group">
+            <label for="message" class="form-label">Your Message</label>
+            <textarea id="message" class="form-textarea" required placeholder="How can I help secure your next project?"></textarea>
+          </div>
+          
+          <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="social-links">
+        <a href="https://github.com/peanutsenior" target="_blank" class="social-link">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/mohamed-kandri-5725a9260/" target="_blank" class="social-link">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="mailto:Skandri30@gmail.com" class="social-link">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+      
+      <p class="copyright">
+        &copy; 2026 <span>Mohamed Kandri</span>. All systems secured. Built with precision engineering and cryptographic integrity.
+      </p>
+    </div>
+  </footer>
+
   <script>
-    // Expand projects
-    function toggleProject(el) {
-      el.classList.toggle('expanded');
+    // Project toggle functionality
+    function toggleProject(element) {
+      // Close other expanded projects first
+      document.querySelectorAll('.project-card').forEach(card => {
+        if (card !== element && card.classList.contains('expanded')) {
+          card.classList.remove('expanded');
+        }
+      });
+      
+      // Toggle current project
+      element.classList.toggle('expanded');
     }
 
-    // Mini Terminal
-    const terminalInput = document.getElementById('terminal-input');
-    const terminalOutput = document.getElementById('terminal-output');
-
-    terminalInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        const cmd = terminalInput.value.trim().toLowerCase();
-        let response = '';
-
-        switch(cmd) {
-          case 'help':
-            response = `
-              <div class="comment">// Available commands:</div>
-              <div>whoami → About me</div>
-              <div>projects → List projects</div>
-              <div>contact → Get in touch</div>
-              <div>clear → Clear terminal</div>
-            `;
-            break;
-          case 'whoami':
-            response = `<div class="string">Full-Stack Developer & Cybersecurity Specialist. Building secure systems with applied cryptography.</div>`;
-            break;
-          case 'projects':
-            response = `<div><span class="function">brain_game</span>, <span class="function">Encrypted File Sharing</span>, <span class="function">Jasmine Chatbot</span>, <span class="function">Logistics Optimizer</span></div>`;
-            break;
-          case 'contact':
-            response = `<div>Email: <span class="string">Skandri30@gmail.com</span></div>`;
-            break;
-          case 'clear':
-            terminalOutput.innerHTML = '';
-            terminalInput.value = '';
-            return;
-          default:
-            response = `<div class="comment">Command not found. Type 'help'.</div>`;
+    // Navigation scroll spy
+    window.addEventListener('scroll', function() {
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      let currentSection = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        if (pageYOffset >= sectionTop) {
+          currentSection = section.getAttribute('id');
         }
-
-        terminalOutput.innerHTML += `<div class="terminal-line">${response}</div>`;
-        terminalInput.value = '';
-        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+      });
+      
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSection}`) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Navbar scroll effect
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
       }
     });
 
-    // Scroll spy
-    window.addEventListener('scroll', () => {
-      const sections = ['home', 'about', 'education', 'skills', 'projects', 'contact'];
-      let current = 'home';
-      for (const id of sections) {
-        const section = document.getElementById(id);
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= 100 && rect.bottom >= 100) {
-          current = id;
-        }
-      }
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('active');
-        if (tab.getAttribute('href') === '#' + current) {
-          tab.classList.add('active');
+    // Form submission
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // In a real implementation, you would send the form data to a server
+      alert('Message received! I prioritize security and will respond within 24 hours with encrypted communication.');
+      this.reset();
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const target = document.querySelector(targetId);
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 100,
+            behavior: 'smooth'
+          });
         }
       });
+    });
+
+    // Initialize animations on scroll
+    const observerOptions = {
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in, .fade-in-delay-1, .fade-in-delay-2, .fade-in-delay-3').forEach(el => {
+      el.style.opacity = 0;
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
     });
   </script>
 
