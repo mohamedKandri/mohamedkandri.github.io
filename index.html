@@ -2,1676 +2,439 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Mohamed Kandri – Full-Stack Developer & Cybersecurity Specialist. Expertise in secure system architecture, applied cryptography, and AI chatbots.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mohamed Kandri, full-stack developer and cybersecurity graduate. Web and mobile apps with encryption, access control and audit trails built in.">
   <meta name="keywords" content="cybersecurity, full-stack developer, encryption, RSA/AES, Flask, React, secure file sharing, logistics optimization">
-  <title>Mohamed Kandri | Dev & Security</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    :root {
-      --primary: #e67748;    /* Vibrant orange */
-      --primary-dark: #e05a2d;
-      --secondary: #ff8c42;  /* Amber orange */
-      --accent: #ffa500;     /* Bright orange accent */
-      --dark: #0a0a0a;       /* True black */
-      --darker: #000000;     /* Pure black */
-      --light: #f8f9fa;
-      --gray: #6c757d;
-      --success: #28a745;
-      --warning: #ffc107;
-      --danger: #dc3545;
-      --glass-bg: rgba(10, 10, 10, 0.85);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --terminal-bg: #121212;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, var(--darker) 0%, #0f0f0f 100%);
-      color: var(--light);
-      scroll-behavior: smooth;
-      line-height: 1.6;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(255, 107, 53, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(255, 140, 66, 0.08) 0%, transparent 40%);
-      z-index: -1;
-    }
-
-    /* Navigation */
-    .navbar {
-      position: sticky;
-      top: 0;
-      background: var(--glass-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--glass-border);
-      padding: 1rem 2rem;
-      z-index: 1000;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .navbar.scrolled {
-      padding: 0.75rem 2rem;
-      background: rgba(0, 0, 0, 0.95);
-    }
-
-    .nav-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.5px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.2rem;
-      list-style: none;
-    }
-
-    .nav-link {
-      color: var(--light);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 1.05rem;
-      position: relative;
-      padding: 0.5rem 0;
-      transition: all 0.3s ease;
-      letter-spacing: -0.25px;
-    }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2.5px;
-      background: var(--primary);
-      transition: width 0.3s ease;
-    }
-
-    .nav-link:hover {
-      color: var(--primary);
-    }
-
-    .nav-link:hover::after {
-      width: 100%;
-    }
-
-    .nav-link.active {
-      color: var(--primary);
-    }
-
-    .nav-link.active::after {
-      width: 100%;
-      background: var(--secondary);
-    }
-
-    /* Hero Section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4rem 2rem;
-      position: relative;
-      overflow: hidden;
-      background: 
-        radial-gradient(circle at 30% 40%, rgba(255, 107, 53, 0.15) 0%, transparent 35%),
-        radial-gradient(circle at 70% 60%, rgba(255, 140, 66, 0.1) 0%, transparent 40%);
-    }
-
-    .hero-content {
-      max-width: 1200px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      padding: 2rem 0;
-    }
-
-    .hero-title {
-      font-size: 4.2rem;
-      font-weight: 800;
-      margin-bottom: 1.2rem;
-      background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -1.5px;
-      text-shadow: 0 5px 25px rgba(255, 107, 53, 0.3);
-    }
-
-    .hero-subtitle {
-      font-size: 1.8rem;
-      color: #e0e0e0;
-      margin-bottom: 2rem;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      font-weight: 300;
-      letter-spacing: -0.5px;
-    }
-
-    .hero-description {
-      font-size: 1.25rem;
-      color: #c5c5c5;
-      margin-bottom: 3.5rem;
-      max-width: 850px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.8;
-      font-weight: 300;
-    }
-
-    .cta-buttons {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      margin-top: 2.5rem;
-    }
-
-    .cta-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      padding: 1.1rem 3rem;
-      border-radius: 60px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.15rem;
-      transition: all 0.4s ease;
-      box-shadow: 
-        0 4px 15px rgba(255, 107, 53, 0.4),
-        0 0 0 3px rgba(255, 107, 53, 0.2);
-      position: relative;
-      overflow: hidden;
-      letter-spacing: -0.25px;
-    }
-
-    .cta-primary::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.7s;
-    }
-
-    .cta-primary:hover {
-      transform: translateY(-4px);
-      box-shadow: 
-        0 8px 25px rgba(255, 107, 53, 0.6),
-        0 0 0 3px rgba(255, 107, 53, 0.3);
-    }
-
-    .cta-primary:hover::before {
-      left: 100%;
-    }
-
-    .cta-secondary {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--primary);
-      border: 2px solid var(--primary);
-      padding: 1.1rem 3rem;
-      border-radius: 60px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.15rem;
-      transition: all 0.4s ease;
-      letter-spacing: -0.25px;
-    }
-
-    .cta-secondary:hover {
-      background: rgba(255, 107, 53, 0.15);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Section Styling */
-    .section {
-      padding: 7rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .section::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
-    }
-
-    .section-title {
-      font-size: 2.8rem;
-      font-weight: 800;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative;
-      display: inline-block;
-      letter-spacing: -1px;
-    }
-
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -12px;
-      left: 0;
-      width: 70px;
-      height: 4px;
-      background: var(--primary);
-      border-radius: 2px;
-    }
-
-    .section-subtitle {
-      color: #a0a0a0;
-      font-size: 1.25rem;
-      margin-bottom: 3.5rem;
-      max-width: 850px;
-      font-weight: 300;
-      line-height: 1.7;
-    }
-
-    /* About Section */
-    .about-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-      margin-top: 3rem;
-    }
-
-    .about-text {
-      line-height: 1.9;
-      color: #e5e5e5;
-      font-weight: 300;
-      font-size: 1.1rem;
-    }
-
-    .about-text p {
-      margin-bottom: 1.8rem;
-      position: relative;
-      padding-left: 1.2rem;
-    }
-
-    .about-text p::before {
-      content: '▹';
-      position: absolute;
-      left: 0;
-      color: var(--primary);
-      font-size: 1.4rem;
-      top: -0.2rem;
-    }
-
-    .highlight {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 700;
-    }
-
-    .principles-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2rem;
-      margin-top: 2.5rem;
-    }
-
-    .principle-card {
-      background: var(--terminal-bg);
-      border: 1px solid var(--glass-border);
-      padding: 2rem;
-      border-radius: 16px;
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .principle-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-      background: var(--primary);
-      transition: width 0.4s ease;
-    }
-
-    .principle-card:hover {
-      transform: translateY(-8px);
-      border-color: var(--primary);
-      box-shadow: 0 15px 40px rgba(255, 107, 53, 0.25);
-    }
-
-    .principle-card:hover::before {
-      width: 8px;
-    }
-
-    .principle-icon {
-      font-size: 2.2rem;
-      margin-bottom: 1.2rem;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .principle-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 0.8rem;
-      color: var(--light);
-    }
-
-    .principle-desc {
-      color: #b5b5b5;
-      font-size: 1.05rem;
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    /* Skills Section */
-    .skills-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2.5rem;
-      margin-top: 4rem;
-    }
-
-    .skill-category {
-      background: var(--terminal-bg);
-      border: 1px solid var(--glass-border);
-      padding: 2.5rem;
-      border-radius: 20px;
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .skill-category::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-    }
-
-    .skill-category:hover {
-      transform: translateY(-10px);
-      border-color: var(--primary);
-      box-shadow: 0 15px 45px rgba(255, 107, 53, 0.2);
-    }
-
-    .skill-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 1.8rem;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      letter-spacing: -0.5px;
-    }
-
-    .skill-list {
-      list-style: none;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    .skill-item {
-      color: var(--light);
-      font-size: 1.05rem;
-      padding: 0.8rem;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.06);
-      transition: all 0.3s ease;
-      font-weight: 400;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .skill-item::before {
-      content: '✓';
-      position: absolute;
-      left: 10px;
-      color: var(--primary);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .skill-item:hover {
-      background: rgba(255, 107, 53, 0.15);
-      padding-left: 25px;
-    }
-
-    .skill-item:hover::before {
-      opacity: 1;
-    }
-
-    /* Projects Section */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-      gap: 3rem;
-      margin-top: 4rem;
-    }
-
-    .project-card {
-      background: var(--terminal-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 24px;
-      overflow: hidden;
-      transition: all 0.5s ease;
-      cursor: pointer;
-      position: relative;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-    }
-
-    .project-card:hover {
-      transform: translateY(-15px);
-      box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.6),
-        0 0 0 3px rgba(255, 107, 53, 0.2);
-      border-color: var(--primary);
-    }
-
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.5s ease;
-    }
-
-    .project-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .project-header {
-      padding: 2.2rem;
-      background: rgba(255, 107, 53, 0.05);
-      border-bottom: 1px solid var(--glass-border);
-    }
-
-    .project-title {
-      font-size: 1.7rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      color: var(--light);
-      letter-spacing: -0.5px;
-    }
-
-    .project-tags {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.3rem;
-    }
-
-    .project-tag {
-      background: rgba(255, 107, 53, 0.15);
-      color: var(--primary);
-      padding: 0.5rem 1.1rem;
-      border-radius: 30px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      transition: all 0.3s ease;
-    }
-
-    .project-tag:hover {
-      background: rgba(255, 107, 53, 0.25);
-      transform: scale(1.05);
-    }
-
-    .project-desc {
-      color: #c5c5c5;
-      font-size: 1.1rem;
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    .project-details {
-      padding: 2.2rem;
-      display: none;
-      background: rgba(0, 0, 0, 0.3);
-      border-top: 1px solid var(--glass-border);
-    }
-
-    .project-card.expanded .project-details {
-      display: block;
-      animation: slideDown 0.4s ease;
-    }
-
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .project-detail-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1.2rem;
-      margin-bottom: 1.4rem;
-      color: var(--light);
-    }
-
-    .project-detail-icon {
-      color: var(--primary);
-      font-size: 1.4rem;
-      margin-top: 0.3rem;
-      min-width: 28px;
-    }
-
-    .project-detail-text {
-      color: #d0d0d0;
-      font-size: 1.05rem;
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    .project-detail-text strong {
-      color: var(--light);
-      font-weight: 600;
-    }
-
-    /* Experience Section */
-    .timeline {
-      position: relative;
-      margin-top: 4rem;
-      padding-left: 3rem;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 3px;
-      background: linear-gradient(180deg, var(--primary), var(--secondary));
-      border-radius: 3px;
-    }
-
-    .timeline-item {
-      position: relative;
-      margin-bottom: 4.5rem;
-      padding-left: 2.5rem;
-    }
-
-    .timeline-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -8px;
-      top: 0;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--primary);
-      border: 4px solid var(--darker);
-      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3);
-    }
-
-    .timeline-content {
-      background: var(--terminal-bg);
-      border: 1px solid var(--glass-border);
-      padding: 2.5rem;
-      border-radius: 20px;
-      transition: all 0.4s ease;
-      position: relative;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    .timeline-content:hover {
-      transform: translateX(15px);
-      border-color: var(--primary);
-      box-shadow: 
-        0 15px 40px rgba(0, 0, 0, 0.45),
-        0 0 0 3px rgba(255, 107, 53, 0.15);
-    }
-
-    .timeline-title {
-      font-size: 1.7rem;
-      font-weight: 800;
-      margin-bottom: 0.8rem;
-      color: var(--light);
-      letter-spacing: -0.5px;
-    }
-
-    .timeline-period {
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 1.15rem;
-      margin-bottom: 1.5rem;
-      display: block;
-      letter-spacing: 0.5px;
-    }
-
-    .timeline-desc {
-      color: #d5d5d5;
-      line-height: 1.8;
-      font-size: 1.1rem;
-      font-weight: 300;
-      margin-bottom: 1.8rem;
-    }
-
-    .timeline-highlights {
-      margin-top: 1.8rem;
-      padding-left: 2rem;
-    }
-
-    .timeline-highlight {
-      color: var(--light);
-      margin-bottom: 1.1rem;
-      position: relative;
-      font-size: 1.05rem;
-      font-weight: 400;
-      line-height: 1.7;
-    }
-
-    .timeline-highlight::before {
-      content: '→';
-      position: absolute;
-      left: -1.8rem;
-      color: var(--primary);
-      font-size: 1.3rem;
-      font-weight: bold;
-    }
-
-    /* Contact Section */
-    .contact-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      margin-top: 4rem;
-      align-items: start;
-    }
-
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2.8rem;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 2rem;
-    }
-
-    .contact-icon {
-      width: 75px;
-      height: 75px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      border-radius: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.9rem;
-      color: white;
-      flex-shrink: 0;
-      box-shadow: 0 10px 25px rgba(255, 107, 53, 0.4);
-      transition: all 0.4s ease;
-    }
-
-    .contact-item:hover .contact-icon {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 12px 30px rgba(255, 107, 53, 0.6);
-    }
-
-    .contact-details h3 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 0.7rem;
-      color: var(--light);
-      letter-spacing: -0.5px;
-    }
-
-    .contact-details a {
-      color: var(--primary);
-      text-decoration: none;
-      transition: all 0.3s ease;
-      font-size: 1.15rem;
-      font-weight: 500;
-      letter-spacing: -0.25px;
-    }
-
-    .contact-details a:hover {
-      color: var(--secondary);
-      text-decoration: underline;
-      letter-spacing: 0;
-    }
-
-    .contact-form {
-      background: var(--terminal-bg);
-      border: 1px solid var(--glass-border);
-      padding: 3rem;
-      border-radius: 24px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    }
-
-    .form-group {
-      margin-bottom: 2rem;
-    }
-
-    .form-label {
-      display: block;
-      margin-bottom: 0.8rem;
-      font-weight: 600;
-      color: var(--light);
-      font-size: 1.1rem;
-      letter-spacing: -0.25px;
-    }
-
-    .form-input,
-    .form-textarea {
-      width: 100%;
-      padding: 1.3rem;
-      background: rgba(30, 30, 30, 0.7);
-      border: 1px solid var(--glass-border);
-      border-radius: 14px;
-      color: var(--light);
-      font-family: inherit;
-      font-size: 1.05rem;
-      transition: all 0.4s ease;
-      font-weight: 400;
-    }
-
-    .form-input:focus,
-    .form-textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: rgba(40, 40, 40, 0.8);
-      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
-    }
-
-    .form-textarea {
-      min-height: 180px;
-      resize: vertical;
-    }
-
-    .submit-btn {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      padding: 1.3rem;
-      border: none;
-      border-radius: 16px;
-      font-size: 1.15rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      width: 100%;
-      letter-spacing: -0.25px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-    }
-
-    .submit-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(255, 107, 53, 0.6);
-    }
-
-    .submit-btn:active {
-      transform: translateY(1px);
-    }
-
-    /* Footer */
-    .footer {
-      background: var(--darker);
-      padding: 4rem 2rem 3rem;
-      text-align: center;
-      border-top: 1px solid rgba(255, 107, 53, 0.15);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .social-link {
-      width: 70px;
-      height: 70px;
-      background: var(--terminal-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary);
-      font-size: 1.8rem;
-      text-decoration: none;
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    }
-
-    .social-link::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      z-index: -1;
-    }
-
-    .social-link:hover {
-      transform: translateY(-8px) scale(1.1);
-      border-color: transparent;
-      color: white;
-      box-shadow: 0 15px 35px rgba(255, 107, 53, 0.5);
-    }
-
-    .social-link:hover::before {
-      opacity: 1;
-    }
-
-    .copyright {
-      color: #888;
-      font-size: 1.1rem;
-      font-weight: 300;
-      letter-spacing: 0.5px;
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
-
-    .copyright span {
-      color: var(--primary);
-      font-weight: 500;
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from { 
-        opacity: 0; 
-        transform: translateY(30px);
-      }
-      to { 
-        opacity: 1; 
-        transform: translateY(0); 
-      }
-    }
-
-    .fade-in {
-      animation: fadeIn 0.9s ease forwards;
-    }
-
-    .fade-in-delay-1 {
-      animation: fadeIn 0.9s ease 0.2s forwards;
-    }
-
-    .fade-in-delay-2 {
-      animation: fadeIn 0.9s ease 0.4s forwards;
-    }
-
-    .fade-in-delay-3 {
-      animation: fadeIn 0.9s ease 0.6s forwards;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 992px) {
-      .hero-title {
-        font-size: 3.5rem;
-      }
-      
-      .hero-subtitle {
-        font-size: 1.6rem;
-      }
-      
-      .section {
-        padding: 5rem 1.5rem;
-      }
-      
-      .projects-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .contact-container {
-        grid-template-columns: 1fr;
-      }
-      
-      .about-content {
-        grid-template-columns: 1fr;
-      }
-      
-      .principles-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-
-      .hero-title {
-        font-size: 2.8rem;
-      }
-
-      .hero-subtitle {
-        font-size: 1.4rem;
-      }
-      
-      .hero-description {
-        font-size: 1.1rem;
-        padding: 0 1rem;
-      }
-
-      .cta-buttons {
-        flex-direction: column;
-        gap: 1rem;
-      }
-      
-      .cta-primary, .cta-secondary {
-        width: 100%;
-        max-width: 400px;
-      }
-      
-      .section-title {
-        font-size: 2.3rem;
-      }
-      
-      .section-subtitle {
-        font-size: 1.1rem;
-      }
-      
-      .timeline {
-        padding-left: 2rem;
-      }
-      
-      .timeline::before {
-        left: 5px;
-      }
-      
-      .timeline-item {
-        padding-left: 2rem;
-      }
-      
-      .timeline-item::before {
-        left: -3px;
-      }
-      
-      .project-header, .project-details {
-        padding: 1.8rem;
-      }
-      
-      .contact-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1.2rem;
-      }
-      
-      .contact-icon {
-        width: 65px;
-        height: 65px;
-        font-size: 1.7rem;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .hero-title {
-        font-size: 2.4rem;
-      }
-      
-      .hero-subtitle {
-        font-size: 1.3rem;
-      }
-      
-      .section {
-        padding: 4rem 1rem;
-      }
-      
-      .section-title {
-        font-size: 2rem;
-      }
-      
-      .skill-list {
-        grid-template-columns: 1fr;
-      }
-      
-      .social-link {
-        width: 60px;
-        height: 60px;
-        font-size: 1.6rem;
-      }
-      
-      .copyright {
-        font-size: 0.95rem;
-        padding: 0 1rem;
-      }
-    }
-  </style>
+  <title>Mohamed Kandri · Full-stack and security</title>
+  <link rel="preload" href="fonts/ibm-plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script src="main.js" defer></script>
 </head>
 <body>
 
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></symbol>
+  </svg>
+
   <!-- Navigation -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="logo">MK</div>
+  <nav class="nav" aria-label="Main">
+    <div class="wrap nav-inner">
+      <a href="#home" class="logo">MK</a>
       <ul class="nav-links">
-        <li><a href="#home" class="nav-link active">Home</a></li>
         <li><a href="#about" class="nav-link">About</a></li>
         <li><a href="#skills" class="nav-link">Skills</a></li>
         <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#experience" class="nav-link">Experience</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
+      <details class="menu">
+        <summary><svg class="i sm"><use href="#i-menu"/></svg>Menu</summary>
+        <ul class="menu-list">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </details>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section id="home" class="hero">
-    <div class="hero-content fade-in">
-      <h1 class="hero-title">Mohamed Kandri</h1>
-      <p class="hero-subtitle">Full-Stack Developer & Cybersecurity Specialist</p>
-      <p class="hero-description">
-        Building impenetrable systems with applied cryptography and modern development practices. 
-        Security isn't an add-on—it's engineered into every layer.
-      </p>
-      <div class="cta-buttons">
-        <a href="#projects" class="cta-primary">Featured Projects</a>
-        <a href="#contact" class="cta-secondary">Hire Me</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section id="about" class="section">
-    <h2 class="section-title">About Me</h2>
-    <p class="section-subtitle">
-      Engineer of secure systems at the intersection of software development and defensive cybersecurity. 
-      I build applications that are robust by design, not just patched after deployment.
-    </p>
-    
-    <div class="about-content">
-      <div class="about-text fade-in">
-        <p>
-          Graduate in <span class="highlight">Cybersecurity</span> (EST, 2025) with a 
-          <span class="highlight">Full-Stack Development</span> diploma (ISTA, 2024). 
-          My expertise lies in creating secure, scalable applications that solve critical operational challenges.
+  <!-- Hero -->
+  <header id="home" class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <p class="hero-kicker">Mohamed Kandri · full-stack and security</p>
+        <h1 class="hero-title">Web apps with the encryption and access control built in from day one</h1>
+        <p class="hero-sub">
+          Cybersecurity graduate (EST, 2025) and full-stack developer (ISTA, 2024).
+          I build in Flask, Laravel, React and Flutter, and design the threat model before the first screen.
         </p>
-        <p>
-          I architect systems with security as the foundation—implementing encryption at rest and in transit, 
-          strict access controls, and defense-in-depth strategies from day one.
-        </p>
-        <p>
-          Currently advancing my skills in Flutter development and application security, with a focus on 
-          building products that are both innovative and inherently secure.
-        </p>
-      </div>
-      
-      <div class="principles-grid fade-in-delay-1">
-        <div class="principle-card">
-          <div class="principle-icon">
-            <i class="fas fa-shield-alt"></i>
-          </div>
-          <h3 class="principle-title">Security by Design</h3>
-          <p class="principle-desc">Security must be architected into systems from inception, not bolted on later</p>
-        </div>
-        
-        <div class="principle-card">
-          <div class="principle-icon">
-            <i class="fas fa-bullseye"></i>
-          </div>
-          <h3 class="principle-title">Operational Focus</h3>
-          <p class="principle-desc">Solutions must solve real business problems with measurable impact</p>
-        </div>
-        
-        <div class="principle-card">
-          <div class="principle-icon">
-            <i class="fas fa-code"></i>
-          </div>
-          <h3 class="principle-title">Elegant Simplicity</h3>
-          <p class="principle-desc">Clean, maintainable code reduces attack surface and technical debt</p>
-        </div>
-        
-        <div class="principle-card">
-          <div class="principle-icon">
-            <i class="fas fa-sync-alt"></i>
-          </div>
-          <h3 class="principle-title">Threat Aware</h3>
-          <p class="principle-desc">Continuously evolving defenses against emerging threats and vulnerabilities</p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">View projects</a>
+          <a href="Mohamed_Kandri_CV.pdf" download class="btn btn-secondary">
+            <svg class="i sm"><use href="#i-download"/></svg>Download CV
+          </a>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Skills Section -->
-  <section id="skills" class="section">
-    <h2 class="section-title">Technical Arsenal</h2>
-    <p class="section-subtitle">
-      Proficient across the stack with specialized expertise in security implementation and cryptography
-    </p>
-    
-    <div class="skills-container">
-      <div class="skill-category fade-in">
-        <h3 class="skill-title">
-          <i class="fas fa-code"></i> Languages
-        </h3>
-        <ul class="skill-list">
-          <li class="skill-item">JavaScript/TypeScript</li>
-          <li class="skill-item">Python</li>
-          <li class="skill-item">PHP</li>
-          <li class="skill-item">SQL</li>
-          <li class="skill-item">Dart/Flutter</li>
-          <li class="skill-item">HTML5/CSS3</li>
-        </ul>
-      </div>
-      
-      <div class="skill-category fade-in-delay-1">
-        <h3 class="skill-title">
-          <i class="fas fa-laptop-code"></i> Frontend
-        </h3>
-        <ul class="skill-list">
-          <li class="skill-item">React</li>
-          <li class="skill-item">Vue.js</li>
-          <li class="skill-item">Tailwind CSS</li>
-          <li class="skill-item">Flutter</li>
-          <li class="skill-item">Responsive Design</li>
-          <li class="skill-item">UX/UI Principles</li>
-        </ul>
-      </div>
-      
-      <div class="skill-category fade-in-delay-2">
-        <h3 class="skill-title">
-          <i class="fas fa-server"></i> Backend & Infra
-        </h3>
-        <ul class="skill-list">
-          <li class="skill-item">Laravel</li>
-          <li class="skill-item">Flask</li>
-          <li class="skill-item">Node.js</li>
-          <li class="skill-item">PostgreSQL</li>
-          <li class="skill-item">Odoo</li>
-          <li class="skill-item">Linux Systems</li>
-        </ul>
-      </div>
-      
-      <div class="skill-category fade-in-delay-3">
-        <h3 class="skill-title">
-          <i class="fas fa-user-secret"></i> Security Specialties
-        </h3>
-        <ul class="skill-list">
-          <li class="skill-item">RSA/AES Encryption</li>
-          <li class="skill-item">Token Auth (JWT/OAuth)</li>
-          <li class="skill-item">TLS/HTTPS Hardening</li>
-          <li class="skill-item">System Hardening</li>
-          <li class="skill-item">Secure Architecture</li>
-          <li class="skill-item">Threat Modeling</li>
-        </ul>
-      </div>
+      <figure class="hero-visual">
+        <div class="log" role="img" aria-label="Session log of an encrypted file transfer: a fresh AES-256-GCM key wrapped with the recipient's RSA-4096 public key, HMAC verified">
+          <div class="log-bar">
+            <span>secure-share · session log</span>
+            <span class="log-state"><span class="dot"></span>tls 1.3</span>
+          </div>
+          <div class="log-body">
+            <p class="log-cmd"><span class="p">$ </span>share send site-plan-v4.pdf --to 192.168.1.24</p>
+            <ul class="log-steps">
+              <li><span class="k">session</span><span class="v">a91f-03c2-7be0</span></li>
+              <li><span class="k">file key</span><span class="v">aes-256-gcm <span class="n">· new for this session</span></span></li>
+              <li><span class="k">wrapped</span><span class="v">rsa-4096-oaep <span class="n">· recipient key</span></span></li>
+              <li><span class="k">peer</span><span class="v fp">2f:9a:c1:58:0e:b4:…:e4</span></li>
+              <li><span class="k">auth</span><span class="v">jwt <span class="n">· token checked</span></span></li>
+              <li><span class="k">integrity</span><span class="v">hmac-sha256</span></li>
+            </ul>
+            <div class="bar"><span></span></div>
+            <div class="bar-meta"><span>48.2 MB sent</span><span>100%</span></div>
+            <p class="log-foot"><span class="ok">verified</span><span>gcm tag 6d1e…b07a matches</span></p>
+          </div>
+        </div>
+        <figcaption class="log-caption">How the encrypted file-sharing project moves one file, simplified</figcaption>
+      </figure>
     </div>
-  </section>
+  </header>
 
-  <!-- Projects Section -->
-  <section id="projects" class="section">
-    <h2 class="section-title">Security-First Projects</h2>
-    <p class="section-subtitle">
-      Systems engineered with security as a foundational requirement, not an afterthought
-    </p>
-    
-    <div class="projects-grid">
-      <!-- Project 1 -->
-      <div class="project-card" onclick="toggleProject(this)">
-        <div class="project-header">
-          <h3 class="project-title">Encrypted File Sharing System</h3>
-          <div class="project-tags">
-            <span class="project-tag">🛡️ Zero-Trust Security</span>
-            <span class="project-tag">🔐 Hybrid Cryptography</span>
-            <span class="project-tag">🌐 LAN Architecture</span>
-          </div>
-          <p class="project-desc">
-            Enterprise-grade secure file sharing with ephemeral key exchange and military-grade encryption
+  <main>
+    <!-- About -->
+    <section id="about" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="section-title">About</h2>
+          <p class="section-sub">
+            I work where software development meets defensive security, and build applications that are safe by design
+            instead of patched after release.
           </p>
         </div>
-        <div class="project-details">
-          <div class="project-detail-item">
-            <i class="fas fa-key project-detail-icon"></i>
-            <div>
-              <strong>Security Architecture:</strong>
-              <p class="project-detail-text">
-                Hybrid RSA/AES model: RSA (4096-bit) encrypts ephemeral AES-256-GCM keys per session. 
-                All file data encrypted with authenticated encryption. Perfect forward secrecy implemented.
-              </p>
-            </div>
-          </div>
-          <div class="project-detail-item">
-            <i class="fas fa-cogs project-detail-icon"></i>
-            <div>
-              <strong>Tech Stack:</strong>
-              <p class="project-detail-text">Python, Flask, PyCryptodome, PostgreSQL, TLS 1.3, JWT</p>
-            </div>
-          </div>
-          <div class="project-detail-item">
-            <i class="fas fa-shield-alt project-detail-icon"></i>
-            <div>
-              <strong>Threat Mitigations:</strong>
-              <p class="project-detail-text">
-                Protection against MITM, replay attacks, and unauthorized access through strict key rotation, 
-                HMAC validation, and certificate pinning
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Project 2 -->
-      <div class="project-card" onclick="toggleProject(this)">
-        <div class="project-header">
-          <h3 class="project-title">Jasmine – AI Security Chatbot</h3>
-          <div class="project-tags">
-            <span class="project-tag">🤖 AI/ML Security</span>
-            <span class="project-tag">💬 Threat Detection</span>
-            <span class="project-tag">📱 WhatsApp Integration</span>
-          </div>
-          <p class="project-desc">
-            Intelligent chatbot with security-hardened architecture and real-time threat response capabilities
-          </p>
-        </div>
-        <div class="project-details">
-          <div class="project-detail-item">
-            <i class="fas fa-brain project-detail-icon"></i>
-            <div>
-              <strong>Security Features:</strong>
-              <p class="project-detail-text">
-                Input sanitization with regex validation, rate limiting (100 req/min), SQL injection prevention, 
-                encrypted conversation history, and admin audit trails
-              </p>
-            </div>
-          </div>
-          <div class="project-detail-item">
-            <i class="fas fa-cogs project-detail-icon"></i>
-            <div>
-              <strong>Tech Stack:</strong>
-              <p class="project-detail-text">Python, Flask, WhatsApp Business API, MySQL (AES-256 encrypted), NLP libraries</p>
-            </div>
-          </div>
-          <div class="project-detail-item">
-            <i class="fas fa-user-shield project-detail-icon"></i>
-            <div>
-              <strong>Compliance:</strong>
-              <p class="project-detail-text">
-                GDPR-compliant data handling, end-to-end encryption for sensitive conversations, 
-                and strict access controls for admin panel
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Project 3 -->
-      <div class="project-card" onclick="toggleProject(this)">
-        <div class="project-header">
-          <h3 class="project-title">Logistics Security Optimizer</h3>
-          <div class="project-tags">
-            <span class="project-tag">🚚 Operational Security</span>
-            <span class="project-tag">🗺️ API Hardening</span>
-            <span class="project-tag">📊 Threat Modeling</span>
-          </div>
-          <p class="project-desc">
-            Secure route optimization system with hardened API integrations and disruption response protocols
-          </p>
-        </div>
-        <div class="project-details">
-          <div class="project-detail-item">
-            <i class="fas fa-route project-detail-icon"></i>
-            <div>
-              <strong>Security Implementation:</strong>
-              <p class="project-detail-text">
-                GraphHopper API integration with HMAC signature validation, encrypted payload transmission, 
-                and circuit breaker pattern for failure isolation during disruptions
-              </p>
-            </div>
-          </div>
-          <div class="project-detail-item">
-            <i class="fas fa-cogs project-detail-icon"></i>
-            <div>
-              <strong>Tech Stack:</strong>
-              <p class="project-detail-text">Python, GraphHopper API (secured), Algorithm Design, PostgreSQL (encrypted fields)</p>
-            </div>
-          </div>
-          <div class="project-detail-item">
-            <i class="fas fa-shield-alt project-detail-icon"></i>
-            <div>
-              <strong>Operational Security:</strong>
-              <p class="project-detail-text">
-                Protected sensitive logistics data (routes, cargo details) with field-level encryption, 
-                implemented principle of least privilege for API access, and audit logging for all operations
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Experience Section -->
-  <section id="experience" class="section">
-    <h2 class="section-title">Professional Journey</h2>
-    <p class="section-subtitle">
-      Building secure systems and solving complex challenges through engineering excellence
-    </p>
-    
-    <div class="timeline">
-      <div class="timeline-item fade-in">
-        <div class="timeline-content">
-          <h3 class="timeline-title">Full-Stack Security Developer</h3>
-          <span class="timeline-period">Freelance | 2022–Present</span>
-          <p class="timeline-desc">
-            Architecting and implementing secure web applications with embedded security controls for diverse clients.
-          </p>
-          <ul class="timeline-highlights">
-            <li class="timeline-highlight">Engineered LAN file-sharing system with hybrid RSA/AES encryption protecting 500+ GB of sensitive data</li>
-            <li class="timeline-highlight">Implemented zero-trust architecture with JWT validation and TLS 1.3 enforcement across all services</li>
-            <li class="timeline-highlight">Developed security-hardened AI chatbots with input sanitization and rate limiting to prevent abuse</li>
-            <li class="timeline-highlight">Designed secure WordPress deployments with hardened configurations and automated security patching</li>
+        <div class="about">
+          <div class="about-text">
+            <p>
+              I graduated in <strong>cybersecurity</strong> from EST in 2025, after a
+              <strong>full-stack development</strong> diploma from ISTA in 2024. I build applications that solve
+              real operational problems and hold up when someone tries to break them.
+            </p>
+            <p>
+              Security is where I start. Data is encrypted at rest and in transit, access is limited to what each role
+              needs, and there is more than one layer between an attacker and the data.
+            </p>
+            <p>
+              Right now I'm going deeper into Flutter and application security, building mobile products that are
+              secure from the first release.
+            </p>
+          </div>
+
+          <ul class="principles">
+            <li class="principle">
+              <svg class="i"><use href="#i-shield"/></svg>
+              <div>
+                <h3>Security by design</h3>
+                <p>Designed into the system from the start, not added later</p>
+              </div>
+            </li>
+            <li class="principle">
+              <svg class="i"><use href="#i-target"/></svg>
+              <div>
+                <h3>Operational focus</h3>
+                <p>Each project solves a real business problem with a result you can measure</p>
+              </div>
+            </li>
+            <li class="principle">
+              <svg class="i"><use href="#i-code"/></svg>
+              <div>
+                <h3>Simple code</h3>
+                <p>Clean, maintainable code leaves less to attack and less debt to pay off</p>
+              </div>
+            </li>
+            <li class="principle">
+              <svg class="i"><use href="#i-refresh"/></svg>
+              <div>
+                <h3>Threat aware</h3>
+                <p>Defences are reviewed as new threats and vulnerabilities appear</p>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
-      
-      <div class="timeline-item fade-in-delay-1">
-        <div class="timeline-content">
-          <h3 class="timeline-title">Logistics Security Engineer</h3>
-          <span class="timeline-period">Project Collaboration | 2023–2024</span>
-          <p class="timeline-desc">
-            Designed security-conscious optimization algorithms for critical logistics infrastructure.
-          </p>
-          <ul class="timeline-highlights">
-            <li class="timeline-highlight">Architected fuel distribution system with encrypted API communications and strict access controls</li>
-            <li class="timeline-highlight">Integrated GraphHopper API with HMAC signature validation to prevent route manipulation attacks</li>
-            <li class="timeline-highlight">Implemented circuit breaker pattern to maintain system integrity during network disruptions</li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="timeline-item fade-in-delay-2">
-        <div class="timeline-content">
-          <h3 class="timeline-title">Web Security Specialist</h3>
-          <span class="timeline-period">Freelance | 2022–2024</span>
-          <p class="timeline-desc">
-            Securing digital assets and infrastructure for small-to-medium businesses through proactive hardening.
-          </p>
-          <ul class="timeline-highlights">
-            <li class="timeline-highlight">Hardened 15+ WordPress installations against common attack vectors (XSS, SQLi, CSRF)</li>
-            <li class="timeline-highlight">Implemented automated security workflows using n8n with encrypted credential storage</li>
-            <li class="timeline-highlight">Conducted security audits and remediation for client web properties</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="section">
-    <h2 class="section-title">Contact</h2>
-    <p class="section-subtitle">
-      Ready to build something secure and impactful together? Let's connect.
-    </p>
-    
-    <div class="contact-container">
-      <div class="contact-info fade-in">
-        <div class="contact-item">
-          <div class="contact-icon">
-            <i class="fas fa-envelope"></i>
-          </div>
-          <div class="contact-details">
-            <h3>Email</h3>
-            <a href="mailto:Skandri30@gmail.com">Skandri30@gmail.com</a>
-          </div>
+    <!-- Skills -->
+    <section id="skills" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="section-title">Skills</h2>
+          <p class="section-sub">Across the stack, with most depth in security and applied cryptography</p>
         </div>
-        
-        <div class="contact-item">
-          <div class="contact-icon">
-            <i class="fab fa-github"></i>
-          </div>
-          <div class="contact-details">
-            <h3>Code Repository</h3>
-            <a href="https://github.com/peanutsenior" target="_blank">github.com/peanutsenior</a>
-          </div>
-        </div>
-        
-        <div class="contact-item">
-          <div class="contact-icon">
-            <i class="fab fa-linkedin-in"></i>
-          </div>
-          <div class="contact-details">
-            <h3>Professional Network</h3>
-            <a href="https://www.linkedin.com/in/mohamed-kandri-5725a9260/" target="_blank">linkedin.com/in/Mohamed_Kandri</a>
-          </div>
-        </div>
-        
-        <div class="contact-item">
-          <div class="contact-icon">
-            <i class="fas fa-file-shield"></i>
-          </div>
-          <div class="contact-details">
-            <h3>Resume</h3>
-            <a href="Mohamed_Kandri_CV.pdf" download class="cta-secondary" style="display: inline-block; padding: 0.7rem 2rem; margin-top: 0.7rem; border-radius: 14px; font-weight: 600; letter-spacing: -0.25px;">
-              Download Encrypted CV
-            </a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="contact-form fade-in-delay-1">
-        <form id="contactForm">
-          <div class="form-group">
-            <label for="name" class="form-label">Your Name</label>
-            <input type="text" id="name" class="form-input" required placeholder="John Doe">
-          </div>
-          
-          <div class="form-group">
-            <label for="email" class="form-label">Email Address</label>
-            <input type="email" id="email" class="form-input" required placeholder="john@example.com">
-          </div>
-          
-          <div class="form-group">
-            <label for="message" class="form-label">Your Message</label>
-            <textarea id="message" class="form-textarea" required placeholder="How can I help secure your next project?"></textarea>
-          </div>
-          
-          <button type="submit" class="submit-btn">Send Message</button>
-        </form>
-      </div>
-    </div>
-  </section>
 
-  <!-- Footer -->
+        <div class="fields">
+          <div class="field">
+            <span class="field-k">languages</span>
+            <ul class="field-v">
+              <li>JavaScript</li><li>TypeScript</li><li>Python</li><li>PHP</li><li>SQL</li><li>Dart</li><li>HTML and CSS</li>
+            </ul>
+          </div>
+          <div class="field">
+            <span class="field-k">frontend</span>
+            <ul class="field-v">
+              <li>React</li><li>Vue.js</li><li>Tailwind CSS</li><li>Flutter</li><li>Responsive design</li><li>UX and UI</li>
+            </ul>
+          </div>
+          <div class="field">
+            <span class="field-k">backend and infra</span>
+            <ul class="field-v">
+              <li>Laravel</li><li>Flask</li><li>Node.js</li><li>PostgreSQL</li><li>Odoo</li><li>Linux</li>
+            </ul>
+          </div>
+          <div class="field">
+            <span class="field-k">security</span>
+            <ul class="field-v">
+              <li>RSA and AES</li><li>JWT and OAuth</li><li>TLS configuration</li><li>System hardening</li><li>Secure architecture</li><li>Threat modeling</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="section-title">Projects</h2>
+          <p class="section-sub">Three systems where security was a requirement from the first design</p>
+        </div>
+
+        <div class="projects">
+          <article class="project featured">
+            <div class="project-main">
+              <h3 class="project-title">Encrypted file sharing</h3>
+              <p class="project-desc">
+                File sharing over a local network where every session gets its own key, and every file is checked before it is accepted
+              </p>
+              <ul class="meta">
+                <li><span class="k">focus</span><span class="v">zero trust · hybrid cryptography · LAN</span></li>
+                <li><span class="k">stack</span><span class="v">python · flask · pycryptodome · postgresql · tls 1.3 · jwt</span></li>
+              </ul>
+            </div>
+            <button class="project-toggle" aria-expanded="false" aria-controls="p1">
+              Details<svg class="i sm"><use href="#i-chevron"/></svg>
+            </button>
+            <div class="project-details" id="p1">
+              <div class="detail">
+                <span class="detail-k">architecture</span>
+                <p class="detail-v">
+                  Hybrid RSA and AES. Each session gets a new AES-256-GCM key, wrapped with the recipient's RSA-4096
+                  public key. File data uses authenticated encryption, so tampering is detected.
+                </p>
+              </div>
+              <div class="detail">
+                <span class="detail-k">stack</span>
+                <p class="detail-v">Python, Flask, PyCryptodome, PostgreSQL, TLS 1.3, JWT</p>
+              </div>
+              <div class="detail">
+                <span class="detail-k">mitigations</span>
+                <p class="detail-v">
+                  Protects against man-in-the-middle, replay and unauthorized access with key rotation, HMAC validation
+                  and certificate pinning.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="project-main">
+              <h3 class="project-title">Jasmine, a hardened WhatsApp chatbot</h3>
+              <p class="project-desc">
+                AI chatbot on WhatsApp with input validation, rate limiting and encrypted conversation history
+              </p>
+              <ul class="meta">
+                <li><span class="k">focus</span><span class="v">AI security · abuse prevention · WhatsApp</span></li>
+                <li><span class="k">stack</span><span class="v">python · flask · mysql · nlp</span></li>
+              </ul>
+            </div>
+            <button class="project-toggle" aria-expanded="false" aria-controls="p2">
+              Details<svg class="i sm"><use href="#i-chevron"/></svg>
+            </button>
+            <div class="project-details" id="p2">
+              <div class="detail">
+                <span class="detail-k">security</span>
+                <p class="detail-v">
+                  Input sanitization with regex validation, rate limiting at 100 requests per minute, SQL injection
+                  prevention, encrypted conversation history and an audit trail for admin actions.
+                </p>
+              </div>
+              <div class="detail">
+                <span class="detail-k">stack</span>
+                <p class="detail-v">Python, Flask, WhatsApp Business API, MySQL with AES-256 encryption, NLP libraries</p>
+              </div>
+              <div class="detail">
+                <span class="detail-k">compliance</span>
+                <p class="detail-v">
+                  GDPR-compliant data handling, end-to-end encryption for sensitive conversations and strict access
+                  control on the admin panel.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="project-main">
+              <h3 class="project-title">Secure route optimizer</h3>
+              <p class="project-desc">
+                Route optimization for fuel distribution, with signed API calls and failure isolation when the network drops
+              </p>
+              <ul class="meta">
+                <li><span class="k">focus</span><span class="v">operational security · API hardening · threat modeling</span></li>
+                <li><span class="k">stack</span><span class="v">python · graphhopper · postgresql</span></li>
+              </ul>
+            </div>
+            <button class="project-toggle" aria-expanded="false" aria-controls="p3">
+              Details<svg class="i sm"><use href="#i-chevron"/></svg>
+            </button>
+            <div class="project-details" id="p3">
+              <div class="detail">
+                <span class="detail-k">security</span>
+                <p class="detail-v">
+                  GraphHopper API calls validated with HMAC signatures, encrypted payloads, and a circuit breaker that
+                  isolates failures during disruptions.
+                </p>
+              </div>
+              <div class="detail">
+                <span class="detail-k">stack</span>
+                <p class="detail-v">Python, GraphHopper API, algorithm design, PostgreSQL with encrypted fields</p>
+              </div>
+              <div class="detail">
+                <span class="detail-k">data</span>
+                <p class="detail-v">
+                  Routes and cargo details protected with field-level encryption, least-privilege API access and an audit
+                  log for every operation.
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="section-title">Experience</h2>
+          <p class="section-sub">Freelance and project work, building and securing systems for clients</p>
+        </div>
+
+        <ol class="jobs">
+          <li class="job">
+            <p class="job-when"><span>2022 — present</span>Freelance</p>
+            <div>
+              <h3 class="job-title">Full-stack security developer</h3>
+              <p class="job-desc">Designing and building secure web applications with security controls built in, for a range of clients</p>
+              <ul class="job-points">
+                <li>Built a LAN file-sharing system with hybrid RSA and AES encryption that protects more than 500 GB of sensitive data</li>
+                <li>Applied a zero-trust setup with JWT validation and TLS 1.3 on every service</li>
+                <li>Built AI chatbots with input sanitization and rate limiting to prevent abuse</li>
+                <li>Set up WordPress sites with hardened configuration and automated security patching</li>
+              </ul>
+            </div>
+          </li>
+          <li class="job">
+            <p class="job-when"><span>2023 — 2024</span>Project collaboration</p>
+            <div>
+              <h3 class="job-title">Logistics security engineer</h3>
+              <p class="job-desc">Designed optimization algorithms for logistics infrastructure with security in mind</p>
+              <ul class="job-points">
+                <li>Designed a fuel distribution system with encrypted API traffic and strict access control</li>
+                <li>Integrated the GraphHopper API with HMAC signature validation to prevent route tampering</li>
+                <li>Added a circuit breaker so the system stays consistent during network outages</li>
+              </ul>
+            </div>
+          </li>
+          <li class="job">
+            <p class="job-when"><span>2022 — 2024</span>Freelance</p>
+            <div>
+              <h3 class="job-title">Web security specialist</h3>
+              <p class="job-desc">Hardening websites and infrastructure for small and medium businesses</p>
+              <ul class="job-points">
+                <li>Hardened more than 15 WordPress installations against XSS, SQL injection and CSRF</li>
+                <li>Automated security workflows in n8n with encrypted credential storage</li>
+                <li>Ran security audits and fixed the findings on client websites</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="section-title">Contact</h2>
+          <p class="section-sub">Have a project or a role in mind? Write to me.</p>
+        </div>
+
+        <div class="contact">
+          <ul class="channels">
+            <li class="channel">
+              <a href="mailto:Skandri30@gmail.com">
+                <svg class="i"><use href="#i-mail"/></svg>
+                <span class="k">Email</span>
+                <span class="v">Skandri30@gmail.com</span>
+              </a>
+            </li>
+            <li class="channel">
+              <a href="https://github.com/peanutsenior" target="_blank" rel="noopener">
+                <svg class="i"><use href="#i-github"/></svg>
+                <span class="k">GitHub</span>
+                <span class="v">github.com/peanutsenior</span>
+              </a>
+            </li>
+            <li class="channel">
+              <a href="https://www.linkedin.com/in/mohamed-kandri-5725a9260/" target="_blank" rel="noopener">
+                <svg class="i"><use href="#i-linkedin"/></svg>
+                <span class="k">LinkedIn</span>
+                <span class="v">linkedin.com/in/mohamed-kandri</span>
+              </a>
+            </li>
+            <li class="channel">
+              <a href="Mohamed_Kandri_CV.pdf" download>
+                <svg class="i"><use href="#i-download"/></svg>
+                <span class="k">Resume</span>
+                <span class="v">Mohamed_Kandri_CV.pdf</span>
+              </a>
+            </li>
+          </ul>
+
+          <form id="contactForm" class="form">
+            <div class="form-group">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" id="name" class="form-input" required autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" class="form-input" required autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label for="message" class="form-label">Message</label>
+              <textarea id="message" class="form-textarea" required placeholder="What are you working on"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send message</button>
+            <p class="form-note" id="formNote" aria-live="polite">Opens your email app with the message filled in</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
   <footer class="footer">
-    <div class="footer-content">
-      <div class="social-links">
-        <a href="https://github.com/peanutsenior" target="_blank" class="social-link">
-          <i class="fab fa-github"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/mohamed-kandri-5725a9260/" target="_blank" class="social-link">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
-        <a href="mailto:Skandri30@gmail.com" class="social-link">
-          <i class="fas fa-envelope"></i>
-        </a>
+    <div class="wrap footer-inner">
+      <p>© 2026 Mohamed Kandri</p>
+      <div class="socials">
+        <a href="https://github.com/peanutsenior" target="_blank" rel="noopener" aria-label="GitHub"><svg class="i"><use href="#i-github"/></svg></a>
+        <a href="https://www.linkedin.com/in/mohamed-kandri-5725a9260/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="i"><use href="#i-linkedin"/></svg></a>
+        <a href="mailto:Skandri30@gmail.com" aria-label="Email"><svg class="i"><use href="#i-mail"/></svg></a>
       </div>
-      
-      <p class="copyright">
-        &copy; 2026 <span>Mohamed Kandri</span>. All systems secured. Built with precision engineering and cryptographic integrity.
-      </p>
     </div>
   </footer>
 
-  <script>
-    // Project toggle functionality
-    function toggleProject(element) {
-      // Close other expanded projects first
-      document.querySelectorAll('.project-card').forEach(card => {
-        if (card !== element && card.classList.contains('expanded')) {
-          card.classList.remove('expanded');
-        }
-      });
-      
-      // Toggle current project
-      element.classList.toggle('expanded');
-    }
-
-    // Navigation scroll spy
-    window.addEventListener('scroll', function() {
-      const sections = document.querySelectorAll('section');
-      const navLinks = document.querySelectorAll('.nav-link');
-      
-      let currentSection = '';
-      
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 120;
-        if (pageYOffset >= sectionTop) {
-          currentSection = section.getAttribute('id');
-        }
-      });
-      
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${currentSection}`) {
-          link.classList.add('active');
-        }
-      });
-      
-      // Navbar scroll effect
-      const navbar = document.querySelector('.navbar');
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
-
-    // Form submission
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      // In a real implementation, you would send the form data to a server
-      alert('Message received! I prioritize security and will respond within 24 hours with encrypted communication.');
-      this.reset();
-    });
-
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        
-        const target = document.querySelector(targetId);
-        if (target) {
-          window.scrollTo({
-            top: target.offsetTop - 100,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-
-    // Initialize animations on scroll
-    const observerOptions = {
-      threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = 1;
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in, .fade-in-delay-1, .fade-in-delay-2, .fade-in-delay-3').forEach(el => {
-      el.style.opacity = 0;
-      el.style.transform = 'translateY(20px)';
-      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      observer.observe(el);
-    });
-  </script>
 
 </body>
-</html> 
- 
+</html>
