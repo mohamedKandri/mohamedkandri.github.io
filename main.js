@@ -1,19 +1,3 @@
-// Project details
-document.querySelectorAll('.project-toggle').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const card = btn.closest('.project');
-    const open = !card.classList.contains('open');
-    document.querySelectorAll('.project.open').forEach(c => {
-      c.classList.remove('open');
-      c.querySelector('.project-toggle').setAttribute('aria-expanded', 'false');
-    });
-    if (open) {
-      card.classList.add('open');
-      btn.setAttribute('aria-expanded', 'true');
-    }
-  });
-});
-
 // Close the mobile menu after picking a link
 const menu = document.querySelector('.menu');
 menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.removeAttribute('open')));
